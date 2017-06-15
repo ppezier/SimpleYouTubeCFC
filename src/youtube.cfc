@@ -1,6 +1,7 @@
 /**
  * @author Patrick Pézier - http://patrick.pezier.com
  * Composant ColdFusion communiquant avec l'API YouTube Data
+ * URL : https://developers.google.com/youtube/v3/
  */
 component
 	accessors="true"
@@ -12,7 +13,7 @@ component
 
 		/* propriétés */
 		property name="key"			type="string"; // API key fournie par YouTube
-		property name="accessToken"	type="string"; // API key fournie par YouTube
+		property name="accessToken"	type="string"; // access token OAuth 2.0
 
 		/* constantes */
 		this.API_URL = "https://www.googleapis.com/youtube/v3"; // url racine de l'API
@@ -37,7 +38,7 @@ component
 		public any function callAPI( string endPoint="", struct params={}, string method="GET" ){
 
 			/* préparation de l'appel à l'API YouTube Data */
-			var httpService = new http( method="#arguments.method#" );
+			var httpService = new http( method="#arguments.method#", charset="utf-8" );
 			httpService.setUrl(this.API_URL & endpoint);
 
 			/**
@@ -97,7 +98,7 @@ component
 		 * Liste toutes les playlists d'un channel
 		 * @params.hint		struct de paramètres
 		 */
-		public any function playlistsListByChannelId( struct params={} ){
+		public struct function playlistsListByChannelId( struct params={} ){
 
 			param name="arguments.params.part"			type="string"	default="snippet,contentDetails";
 			param name="arguments.params.maxResults"	type="integer"	default="25";
@@ -116,7 +117,7 @@ component
 		 * Liste tous les items d'une playlist
 		 * @params.hint		struct de paramètres
 		 */
-		public any function playlistItemsListByPlaylistId( struct params={} ){
+		public struct function playlistItemsListByPlaylistId( struct params={} ){
 
 			param name="arguments.params.part"			type="string"	default="snippet,contentDetails";
 			param name="arguments.params.maxResults"	type="integer"	default="25";
